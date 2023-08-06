@@ -1,0 +1,14 @@
+ARG TARGET_VERSION=3.2.1
+
+FROM ghcr.io/rails-sqlserver/activerecord-sqlserver-adapter:${TARGET_VERSION}
+
+ENV WORKDIR /activerecord-sqlserver-adapter
+
+RUN mkdir -p $WORKDIR
+WORKDIR $WORKDIR
+
+COPY . $WORKDIR
+
+RUN RAILS_MAIN=1 bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
+
+CMD ["sh"]

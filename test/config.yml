@@ -1,0 +1,31 @@
+
+default_connection_info: &default_connection_info
+  adapter: sqlserver
+  mode: <%= ENV['ARCONN_MODE'] || 'dblib' %>
+  host: <%= ENV['ACTIVERECORD_UNITTEST_HOST'] || 'localhost' %>
+  port: <%= ENV['ACTIVERECORD_UNITTEST_PORT'] %>
+  database: activerecord_unittest
+  username: <%= ENV['ACTIVERECORD_UNITTEST_USER'] || 'rails' %>
+  password: <%= ENV['ACTIVERECORD_UNITTEST_PASS'] || '' %>
+  collation: <%= ENV['ACTIVERECORD_UNITTEST_COLLATION'] || nil %>
+  encoding: utf8
+
+connections:
+
+  sqlserver:
+    arunit:
+      <<: *default_connection_info
+      appname: SQLServerAdptrUnit
+      dataserver: <%= ENV['ACTIVERECORD_UNITTEST_DATASERVER'] %>
+      tds_version: <%= ENV['ACTIVERECORD_UNITTEST_TDSVERSION'] %>
+      azure: <%= !ENV['ACTIVERECORD_UNITTEST_AZURE'].nil? %>
+      timeout: <%= ENV['ACTIVERECORD_UNITTEST_AZURE'].present? ? 20 : 10 %>
+    arunit2:
+      <<: *default_connection_info
+      database: activerecord_unittest2
+      appname: SQLServerAdptrUnit2
+      dataserver: <%= ENV['ACTIVERECORD_UNITTEST_DATASERVER'] %>
+      tds_version: <%= ENV['ACTIVERECORD_UNITTEST_TDSVERSION'] %>
+      azure: <%= !ENV['ACTIVERECORD_UNITTEST_AZURE'].nil? %>
+      timeout: <%= ENV['ACTIVERECORD_UNITTEST_AZURE'].present? ? 20 : 10 %>
+

@@ -1,0 +1,14 @@
+version: "2.2"
+services:
+  sqlserver:
+    image: ghcr.io/rails-sqlserver/mssql-server-linux-rails
+  ci:
+    environment:
+      - ACTIVERECORD_UNITTEST_HOST=sqlserver
+      - RAILS_MAIN=1
+    build:
+      context: .
+      dockerfile: Dockerfile.ci
+    command: wait-for sqlserver:1433 -- bundle exec rake test
+    depends_on:
+      - "sqlserver"
